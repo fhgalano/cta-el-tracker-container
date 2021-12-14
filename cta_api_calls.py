@@ -1,3 +1,5 @@
+import json
+import datetime
 import requests
 
 import config
@@ -32,8 +34,7 @@ class RequestCTA:
         return f"&outputType={out_type}"
 
     def create_request(self, key=None, stop=None, route=None, max_results=None, output_type=None):
-        d = locals()
-        del d['self']
+        d = {'key': key, 'stop': stop, 'route': route, 'max_results': max_results, 'output_type': output_type}
         reqs = [self.base_url]
         for cta_req, value in d.items():
             if value is None:
@@ -43,9 +44,43 @@ class RequestCTA:
 
         return ''.join(reqs)
 
+class Train():
+    def __init__(self, cta_response):
+        self.eta = cta_response['ctatt']['eta']
+        self.time = cta_response['ctatt']['tmst']
+
+        # Parse eta data
+        self.dly = self.is_delayed()
+        self.color = self.route_color()
+        self.stop = self.current_stop()
+        self.direction = self.route_direction()
+        self.eta = self.eta_calc()
+
+    def is_delayed(self):
+        return self.eta[0]['isDly']
+
+    def route_color(self):
+        return self.eta[0]['rt']
+
+    def current_stop(self):
+        return self.eta[0]['staNm']
+
+    def route_direction(self):
+        return self.eta[0]['stpDe']
+
+    def eta_calc(self):
+        t0 = datetime.datetime.strptime(self.eta[0]['prdt'].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
+        t1 = datetime.datetime.strptime(self.eta[0]['arrT'].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
+
+        time_delta = (t1 - t0)
+        total_seconds = time_delta.total_seconds()
+        return total_seconds/60
+
+
 
 if __name__ == '__main__':
     a = RequestCTA()
-    print(a.create_request())
-    # cta = requests.get(a.create_request())
-    # print(cta)
+    cta = requests.get(a.create_request())
+    train = Train(cta.json())
+
+    print('debug')
