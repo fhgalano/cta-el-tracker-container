@@ -76,6 +76,14 @@ class Train():
         total_seconds = time_delta.total_seconds()
         return total_seconds/60
 
+    def info(self):
+        return {
+            'color': self.color,
+            'direction': self.direction,
+            'stop': self.stop,
+            'eta': self.eta
+        }
+
 
 
 if __name__ == '__main__':
