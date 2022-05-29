@@ -2,11 +2,14 @@ import json
 import datetime
 import requests
 
-import config
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class RequestCTA:
     def __init__(self):
-        self.base_url = config.base_url
+        self.base_url = os.getenv('BASE_URL')
         self.func_map = {
             'key': self.give_key,
             'stop': self.give_station,
@@ -16,7 +19,7 @@ class RequestCTA:
         }
 
     def give_key(self):
-        return f"key={config.api_key}"
+        return f"key={os.getenv('API_KEY')}"
 
     def give_station(self, station_id='30256'):
         return f"&stpid={station_id}"
