@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class RequestCTA:
     def __init__(self):
         self.base_url = os.getenv('BASE_URL')
@@ -36,8 +37,17 @@ class RequestCTA:
     def give_output_type(self, out_type='JSON'):
         return f"&outputType={out_type}"
 
-    def create_request(self, key=None, stop=None, route=None, max_results=None, output_type=None):
-        d = {'key': key, 'stop': stop, 'route': route, 'max_results': max_results, 'output_type': output_type}
+    def create_request(self,
+                       key=None,
+                       stop=None,
+                       route=None,
+                       max_results=None,
+                       output_type=None):
+        d = {'key': key,
+             'stop': stop,
+             'route': route,
+             'max_results': max_results,
+             'output_type': output_type}
         reqs = [self.base_url]
         for cta_req, value in d.items():
             if value is None:
@@ -72,8 +82,12 @@ class Train():
         return self.eta[0]['stpDe']
 
     def eta_calc(self):
-        t0 = datetime.datetime.strptime(self.eta[0]['prdt'].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
-        t1 = datetime.datetime.strptime(self.eta[0]['arrT'].replace('T', ' '), '%Y-%m-%d %H:%M:%S')
+        t0 = (datetime.datetime.strptime(self.eta[0]['prdt']
+                                         .replace('T', ' '),
+                                         '%Y-%m-%d %H:%M:%S'))
+        t1 = (datetime.datetime.strptime(self.eta[0]['arrT']
+                                         .replace('T', ' '),
+                                         '%Y-%m-%d %H:%M:%S'))
 
         time_delta = (t1 - t0)
         total_seconds = time_delta.total_seconds()
@@ -86,7 +100,6 @@ class Train():
             'stop': self.stop,
             'eta': self.eta
         }
-
 
 
 if __name__ == '__main__':
