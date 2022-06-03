@@ -5,7 +5,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv('secrets.env')
 
 
 class RequestCTA:
@@ -19,22 +19,27 @@ class RequestCTA:
             'output_type': self.give_output_type
         }
 
-    def give_key(self):
+    @staticmethod
+    def give_key():
         return f"key={os.getenv('API_KEY')}"
 
-    def give_station(self, station_id='30256'):
+    @staticmethod
+    def give_station(station_id='30256'):
         return f"&stpid={station_id}"
 
-    def give_route_code(self, route_code=None):
+    @staticmethod
+    def give_route_code(route_code=None):
         if route_code is not None:
             return f"&rt={route_code}"
         else:
             return ''
 
-    def give_max_results(self, max_res=3):
+    @staticmethod
+    def give_max_results(max_res=3):
         return f"&max={max_res}"
 
-    def give_output_type(self, out_type='JSON'):
+    @staticmethod
+    def give_output_type(out_type='JSON'):
         return f"&outputType={out_type}"
 
     def create_request(self,
@@ -57,7 +62,8 @@ class RequestCTA:
 
         return ''.join(reqs)
 
-class Train():
+
+class Train:
     def __init__(self, cta_response):
         self.eta = cta_response['ctatt']['eta']
         self.time = cta_response['ctatt']['tmst']
