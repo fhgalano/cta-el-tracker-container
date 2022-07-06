@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from uvicorn import run
+from dotenv import load_dotenv
 
 from cta_map import get_stp_id
 from cta_requests import get_train_eta
 
 app = FastAPI()
+load_dotenv()
 
 
 @app.get("/")
