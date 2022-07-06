@@ -15,6 +15,7 @@ c_map = {
 
 reference_path = Path(__file__).parent / 'CTA_-_System_Information_-_List_of__L__Stops.csv'
 
+
 def get_stp_id(quad, color, direction, stop_name):
     # Process Inputs
     color = color_map(color)
