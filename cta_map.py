@@ -13,7 +13,8 @@ c_map = {
     'PINK': 'PNK'
 }
 
-reference_path = Path(__file__).parent / 'CTA_-_System_Information_-_List_of__L__Stops.csv'
+reference_path = (Path(__file__).parent
+                  / 'CTA_-_System_Information_-_List_of__L__Stops.csv')
 
 
 def get_stp_id(quad, color, direction, stop_name):
@@ -53,4 +54,3 @@ def _check_if_single_solution(route_map):
         raise Exception("No Single Solution for Station ID")
     else:
         pass
-
