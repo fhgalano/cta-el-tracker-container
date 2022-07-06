@@ -96,7 +96,7 @@ class Train:
 
         time_delta = (t1 - t0)
         total_seconds = time_delta.total_seconds()
-        return total_seconds/60
+        return total_seconds / 60
 
     def info(self):
         return {
