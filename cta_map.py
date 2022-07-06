@@ -1,4 +1,5 @@
 import pandas as pd
+from pathlib import Path
 
 
 c_map = {
@@ -12,13 +13,14 @@ c_map = {
     'PINK': 'PNK'
 }
 
+reference_path = Path(__file__).parent / 'CTA_-_System_Information_-_List_of__L__Stops.csv'
 
 def get_stp_id(quad, color, direction, stop_name):
     # Process Inputs
     color = color_map(color)
 
     # Filter Mapping
-    route_map = pd.read_csv('CTA_-_System_Information_-_List_of__L__Stops.csv')
+    route_map = pd.read_csv(reference_path)
     route_map = _get_entries_with_stop_name(stop_name, route_map)
     route_map = _get_entries_of_color(color, route_map)
     route_map = _get_entries_with_direction(direction, route_map)
@@ -51,8 +53,3 @@ def _check_if_single_solution(route_map):
     else:
         pass
 
-
-if __name__ == "__main__":
-    stp_id = get_stp_id('we', 'Red', 'S', 'Belmont')
-
-    print(stp_id)

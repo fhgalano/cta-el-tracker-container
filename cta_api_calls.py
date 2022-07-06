@@ -112,5 +112,3 @@ if __name__ == '__main__':
     a = RequestCTA()
     cta = requests.get(a.create_request())
     train = Train(cta.json())
-
-    print('debug')
